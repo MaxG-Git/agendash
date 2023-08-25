@@ -6,6 +6,9 @@ module.exports = (agenda, options) => {
   if (!options.middleware) {
     options.middleware = "express";
   }
+  if (!options.apiMiddleware) {
+    options.apiMiddleware = [];
+  }
 
   const agendash = require("./lib/controllers/agendash")(agenda, options);
   const middlewarePath = path.join(
@@ -15,7 +18,7 @@ module.exports = (agenda, options) => {
   );
 
   try {
-    return require(middlewarePath)(agendash);
+    return require(middlewarePath)(agendash, options);
   } catch (error) {
     console.error(error);
     throw new Error(`Middleware load failed with ${JSON.stringify(options)}`);

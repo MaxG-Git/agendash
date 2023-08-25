@@ -7,6 +7,7 @@ const app = Vue.component("app", {
     pagenumber: 1,
     totalPages: 0,
     showConfirm: false,
+    showConfirmStop: false,
     showConfirmMulti: false,
     showConfirmRequeue: false,
     showConfirmRequeueMulti: false,
@@ -49,6 +50,10 @@ const app = Vue.component("app", {
     confirmDelete(data) {
       this.jobData = data;
       this.showConfirm = true;
+    },
+    confirmStop(data) {
+      this.jobData = data;
+      this.showConfirmStop = true;
     },
     confirmDeleteMulti(data) {
       this.jobData = data;
@@ -249,6 +254,7 @@ const app = Vue.component("app", {
             <div class="col-12 ">
               <job-list
                   v-on:confirm-delete="confirmDelete"
+                  v-on:confirm-stop="confirmStop"
                   v-on:confirm-multi-delete="confirmDeleteMulti"
                   v-on:confirm-requeue="confirmRequeue"
                   v-on:confirm-multi-requeue="confirmRequeueMulti"
@@ -273,6 +279,7 @@ const app = Vue.component("app", {
       </div>
       <job-detail v-if="showDetail" v-bind:job="jobData"></job-detail>
       <confirm-delete v-if="showConfirm" v-on:popup-message="popupmessage('delete')" v-on:refresh-data="refreshData" v-bind:job="jobData"></confirm-delete>
+      <confirm-stop v-if="showConfirmStop" v-on:popup-message="popupmessage('stop')" v-on:refresh-data="refreshData" v-bind:job="jobData"></confirm-stop>
       <confirm-multi-delete v-if="showConfirmMulti" v-on:ready-clean="readyClean" v-on:popup-message="popupmessage('multidelete')" v-on:refresh-data="refreshData" v-bind:jobs="jobData"></confirm-multi-delete>
       <confirm-requeue v-if="showConfirmRequeue"  v-on:popup-message="popupmessage('requeue')" v-on:refresh-data="refreshData" v-bind:job="jobData"></confirm-requeue>
       <confirm-multi-requeue v-if="showConfirmRequeueMulti" v-on:ready-clean="readyClean" v-on:popup-message="popupmessage('multirequeue')" v-on:refresh-data="refreshData" v-bind:jobs="jobData"></confirm-multi-requeue>

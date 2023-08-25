@@ -146,7 +146,8 @@ const jobList = Vue.component("job-list", {
                     <i v-if="job.completed" class="pill-own bg-success pill-withoutIcon"><span>Completed</span></i>
                     <i v-if="job.queued" class="pill-own bg-primary pill-withoutIcon"><span>Queued</span></i>
                     <i v-if="job.failed" class="pill-own bg-danger pill-withoutIcon"><span>Failed</span></i>
-                    <i v-if="job.running" class="pill-own bg-warning pill-withoutIcon"><span>Running</span></i>
+                    <i v-if="job.running && !(job.job.data && job.job.data.cancelled)" class="pill-own bg-warning pill-withoutIcon"><span>Running</span></i>
+                    <i v-if="job.running && job.job.data && job.job.data.cancelled" class="pill-own bg-danger pill-withoutIcon"><span>Stopping</span></i>
                   </td>
                   <td class="job-name"  @click="toggleList(job)"> {{job.job.name}} </td>
                   <td class="job-lastRunAt" :title="formatTitle(job.job.lastRunAt)" @click="toggleList(job)"> {{ formatDate(job.job.lastRunAt) }} </td>
@@ -154,6 +155,7 @@ const jobList = Vue.component("job-list", {
                   <td class="job-finishedAt" :title="formatTitle(job.job.lastFinishedAt)" @click="toggleList(job)"> {{ formatDate(job.job.lastFinishedAt) }} </td>
                   <td class="job-lockedAt" :title="formatTitle(job.job.lockedAt)" @click="toggleList(job)"> {{ formatDate(job.job.lockedAt) }} </td>
                   <td class="job-actions">
+                    <i v-if="job.running && !(job.job.data && job.job.data.cancelled)" class="material-icons md-dark md-custom action-btn viewData text-danger" data-toggle="modal" data-target="#modalStopSure" @click="$emit('confirm-stop', job)" data-placement="left" title="Stop">stop</i>
                     <i class="material-icons md-dark md-custom action-btn viewData text-primary" data-toggle="modal" data-target="#modalRequeueSure" @click="$emit('confirm-requeue', job)" data-placement="left" title="Requeue">update</i>
                     <i class="material-icons md-dark md-custom action-btn viewData text-success" data-toggle="modal" data-target="#modalData" @click="$emit('show-job-detail', job)" data-placement="top" title="Job Data">visibility</i>
                     <i class="material-icons md-dark md-custom action-btn viewData text-danger" data-toggle="modal" data-target="#modalDeleteSure" @click="$emit('confirm-delete', job)" data-placement="top" title="Delete permanently">delete_forever</i>

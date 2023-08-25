@@ -28,8 +28,6 @@ const jobDetail = Vue.component("job-detail", {
             <p><strong>Last run started: </strong>{{ formatDate(job.job.lastRunAt) }}</p>
           </div>
         </div>
-        <p><strong>Metadata: </strong></p>
-        <prism-editor class="json-editor" :lineNumbers="true" :readonly="true" :code="job.job.data | formatJSON" language="json"></prism-editor>
         <div v-if='job.failed' class="row mt-3">
           <div class="col pt-3 bg-danger text-light">
               <p><strong>Fail Count:</strong> {{job.job.failCount}}</p>
@@ -37,6 +35,15 @@ const jobDetail = Vue.component("job-detail", {
               <p><strong>Reason:</strong> {{job.job.failReason}}</p>
           </div>
         </div>
+        <div v-if='job.completed' class="row mt-3">
+          <div class="col pt-3 bg-success text-light" style="padding-bottom:6rem;">
+            <p><strong>Job Completed</strong></p>
+            <p><strong>Finished At:</strong> {{formatDate(job.job.lastFinishedAt)}}</p>
+            <prism-editor v-if="job.job && job.job.result" class="json-editor" :lineNumbers="true" :readonly="true" :code="job.job.result | formatJSON" language="json"></prism-editor>
+          </div>
+        </div>
+        <p class="mt-3"><strong>Metadata: </strong></p>
+        <prism-editor style="max-height:350px" class="json-editor" :lineNumbers="true" :readonly="true" :code="job | formatJSON" language="json"></prism-editor>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

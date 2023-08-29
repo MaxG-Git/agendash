@@ -207,6 +207,14 @@ const app = Vue.component("app", {
         <div class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <div class="d-flex">
             <div>
+              <a class="navbar-brand col-sm-10 col-md-10 mr-0 d-flex justify-center align-items-center cursor-pointer"
+              onclick="window.history.go(-1); return false;"
+              >
+                <i title="Back" class="material-icons md-dark md-custom">arrow_back</i>
+                <span>Back</span>
+               </a>
+            </div>
+            <div>
               <a class="navbar-brand col-sm-10 col-md-10 mr-0 tittle"> Agendash</a>
             </div>
             <div class='d-md-none w-50'>

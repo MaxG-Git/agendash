@@ -13,25 +13,32 @@ const jobList = Vue.component("job-list", {
           displayA = a.job[this.currentSort]
             ? a.job[this.currentSort].toLowerCase()
             : "";
-          displayB = a.job[this.currentSort]
+          displayB = b.job[this.currentSort]
             ? b.job[this.currentSort].toLowerCase()
             : "";
+        } else if(this.currentSort === "category"){
+          displayA = a.job.data && a.job.data.category ? a.job.data.category : '';
+          displayB = b.job.data && b.job.data.category ? b.job.data.category : '';
         } else {
           displayA = moment(a.job[this.currentSort]);
           displayB = moment(b.job[this.currentSort]);
         }
         let modifier = 1;
         if (this.currentSortDir === "desc") modifier = -1;
+        console.log(displayA < displayB ? (-1*modifier) : (displayA > displayB ? (1*modifier) : 0))
         if (displayA < displayB) return -1 * modifier;
         if (displayA > displayB) return 1 * modifier;
         return 0;
       });
 
+    //  console.log(sortedJobs)
+
       /** Show recurring jobs first */
-      return Array.prototype.concat(
-        sortedJobs.filter(job => job.repeating === true),
-        sortedJobs.filter(job => job.repeating === false),
-      )
+      // return Array.prototype.concat(
+      //   sortedJobs.filter(job => job.repeating === true),
+      //   sortedJobs.filter(job => job.repeating === false),
+      // )
+      return sortedJobs
     },
   },
   watch: {
@@ -100,6 +107,10 @@ const jobList = Vue.component("job-list", {
                                                             <i v-else-if="currentSort === 'name' && currentSortDir === 'desc'" class="material-icons sortable" title="Sort A to Z">arrow_drop_up</i>
                                                             <i v-else class="material-icons sortableinactive" title="Sort A to Z">arrow_drop_down</i>
               </th>
+              <th   @click="sort('category')" scope="col"> Category <i v-if="currentSort === 'category' && currentSortDir === 'asc'" class="material-icons sortable" title="Sort Z to A">arrow_drop_down</i>
+                                                            <i v-else-if="currentSort === 'category' && currentSortDir === 'desc'" class="material-icons sortable" title="Sort A to Z">arrow_drop_up</i>
+                                                            <i v-else class="material-icons sortableinactive" title="Sort A to Z">arrow_drop_down</i>
+              </th>
               <th   @click="sort('lastRunAt')" scope="col"> Last run started <i v-if="currentSort === 'lastRunAt' && currentSortDir === 'asc'" class="material-icons sortable" title="Sort Z to A">arrow_drop_up</i>
                                                             <i v-else-if="currentSort === 'lastRunAt' && currentSortDir === 'desc'" class="material-icons sortable" title="Sort A to Z">arrow_drop_down</i>
                                                             <i v-else class="material-icons sortableinactive" title="Sort A to Z">arrow_drop_down</i>
@@ -150,6 +161,7 @@ const jobList = Vue.component("job-list", {
                     <i v-if="job.running && job.job.data && job.job.data.cancelled" class="pill-own bg-danger pill-withoutIcon"><span>Stopping</span></i>
                   </td>
                   <td class="job-name"  @click="toggleList(job)"> {{job.job.name}} </td>
+                  <td class="job-name"  @click="toggleList(job)"> {{job.job.data && job.job.data.category ? job.job.data.category : 'None' }} </td>
                   <td class="job-lastRunAt" :title="formatTitle(job.job.lastRunAt)" @click="toggleList(job)"> {{ formatDate(job.job.lastRunAt) }} </td>
                   <td class="job-nextRunAt" :title="formatTitle(job.job.nextRunAt)" @click="toggleList(job)"> {{ formatDate(job.job.nextRunAt) }} </td>
                   <td class="job-finishedAt" :title="formatTitle(job.job.lastFinishedAt)" @click="toggleList(job)"> {{ formatDate(job.job.lastFinishedAt) }} </td>

@@ -4,7 +4,7 @@ const newJob = Vue.component("new-job", {
     jobName: "",
     jobSchedule: "",
     jobRepeatEvery: "",
-    jobData: `{ "name": "Your medatada goes here..." }`,
+    jobData: `{ "category": "None" }`,
   }),
   props: ["job"],
   methods: {
@@ -13,7 +13,7 @@ const newJob = Vue.component("new-job", {
         (this.jobName = ""),
         (this.jobSchedule = ""),
         (this.jobRepeatEvery = ""),
-        (this.jobData = `{ "name": "Your medatada goes here..." }`);
+        (this.jobData = `{ "category": "None" }`);
     },
     create() {
       const url = `api/jobs/create`;

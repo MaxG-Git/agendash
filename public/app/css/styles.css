@@ -15,6 +15,7 @@
   margin-bottom: 12px;
 }
 
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -230,4 +231,7 @@ code {
   color: white;
   padding: 5px 0 0 0;
   border: none;
+}
+.cursor-pointer{
+  cursor: pointer;
 }

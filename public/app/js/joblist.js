@@ -25,7 +25,6 @@ const jobList = Vue.component("job-list", {
         }
         let modifier = 1;
         if (this.currentSortDir === "desc") modifier = -1;
-        console.log(displayA < displayB ? (-1*modifier) : (displayA > displayB ? (1*modifier) : 0))
         if (displayA < displayB) return -1 * modifier;
         if (displayA > displayB) return 1 * modifier;
         return 0;
